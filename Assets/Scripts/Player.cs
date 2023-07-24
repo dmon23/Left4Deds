@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 20f;
+    [SerializeField] float moveSpeed = 10f;
+    private Rigidbody2D rb;
 
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {        
-        float horizontal = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        float vertical = Input.GetAxis("Vertical")  * moveSpeed * Time.deltaTime;
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
-        transform.Translate(horizontal, 0, 0);
-        transform.Translate(0, vertical, 0);
+        var moveVector = new Vector3(horizontal, vertical, 0);
+
+        rb.MovePosition(new Vector3((transform.position.x + moveVector.x * moveSpeed * Time.fixedDeltaTime), (transform.position.y + moveVector.y * moveSpeed * Time.fixedDeltaTime)));
     }
 }
+
